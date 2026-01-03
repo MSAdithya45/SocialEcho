@@ -23,7 +23,7 @@ pipeline {
                         sh '''
                             echo "Cloning Kubernetes repo for promotion..."
                             rm -rf Kubernetes
-                            git clone https://$GIT_USER:$GIT_PASS@github.com/MukheshDN4352/Kubernetes.git
+                            git clone https://$GIT_USER:$GIT_PASS@github.com/MSAdithya45/kubernetes.git
                             cd Kubernetes/kubernetes
 
                             echo "Promoting existing canary image to stable..."
@@ -40,7 +40,7 @@ pipeline {
                             git add frontend-server.yaml node-server.yaml
                             git commit -m "Promote Canary to Stable - Build #${BUILD_NUMBER}" || echo "No stable changes to commit"
 
-                            git push https://$GIT_USER:$GIT_PASS@github.com/MukheshDN4352/Kubernetes.git main
+                            git push https://$GIT_USER:$GIT_PASS@github.com/MSAdithya45/kubernetes.git main
 
                             cd ../..
                         '''
@@ -100,14 +100,14 @@ pipeline {
 
                             echo "Building and pushing frontend..."
                             cd client
-                            docker build -t mukheshdn/frontend:${BUILD_NUMBER} .
-                            docker push mukheshdn/frontend:${BUILD_NUMBER}
+                            docker build -t madithya/frontend:${BUILD_NUMBER} .
+                            docker push madithya/frontend:${BUILD_NUMBER}
                             cd ..
 
                             echo "Building and pushing backend..."
                             cd server
-                            docker build -t mukheshdn/backend:${BUILD_NUMBER} .
-                            docker push mukheshdn/backend:${BUILD_NUMBER}
+                            docker build -t madithya/backend:${BUILD_NUMBER} .
+                            docker push madithya/backend:${BUILD_NUMBER}
                             cd ..
 
                             docker logout
@@ -123,12 +123,12 @@ pipeline {
                     sh '''
                         echo "Cloning Kubernetes repo for canary update..."
                         rm -rf Kubernetes
-                        git clone https://github.com/MukheshDN4352/Kubernetes.git
-                        cd Kubernetes/kubernetes
+                        git clone https://github.com/MSAdithya45/kubernetes.git
+                        cd kubernetes/kubernetes
 
                         echo "Updating canary YAML files with new images..."
-                        sed -i "s|image: mukheshdn/frontend:.*|image: mukheshdn/frontend:${BUILD_NUMBER}|" frontend-canary.yaml
-                        sed -i "s|image: mukheshdn/backend:.*|image: mukheshdn/backend:${BUILD_NUMBER}|" node-canary.yaml
+                        sed -i "s|image: madithya/frontend:.*|image: madithya/frontend:${BUILD_NUMBER}|" frontend-canary.yaml
+                        sed -i "s|image: madithya/backend:.*|image: madithya/backend:${BUILD_NUMBER}|" node-canary.yaml
 
                         cd ../..
                     '''
@@ -149,7 +149,7 @@ pipeline {
                             git add kubernetes/frontend-canary.yaml kubernetes/node-canary.yaml kubernetes/frontend-server.yaml kubernetes/node-server.yaml
                             git commit -m "Update Canary & Promote Stable - Build #${BUILD_NUMBER}" || echo "No new canary changes to commit"
 
-                            git push https://$GIT_USER:$GIT_PASS@github.com/MukheshDN4352/Kubernetes.git main
+                            git push https://$GIT_USER:$GIT_PASS@github.com/MSAdithya45/kubernetes.git main
 
                             cd ..
                         '''
@@ -162,7 +162,7 @@ pipeline {
     post {
         success {
             echo "✅ Pipeline completed successfully. Docker images pushed with tag ${BUILD_NUMBER}."
-            mail to: 'mukheshdn.cs23@bmsce.ac.in',
+            mail to: 'muppidisaiadithya@gmail.com',
                  subject: "Jenkins Build SUCCESS: ${env.JOB_NAME} [#${env.BUILD_NUMBER}]",
                  body: """
 Hello,
@@ -183,7 +183,7 @@ Jenkins CI/CD
 
         failure {
             echo "❌ Pipeline failed."
-            mail to: 'mukheshdn.cs23@bmsce.ac.in',
+            mail to: 'muppidisaiadithya@gmail.com',
                  subject: "Jenkins Build FAILED: ${env.JOB_NAME} [#${env.BUILD_NUMBER}]",
                  body: """
 Hello,
