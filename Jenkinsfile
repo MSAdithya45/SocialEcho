@@ -23,7 +23,7 @@ pipeline {
                         sh '''
                             echo "Cloning Kubernetes repo for promotion..."
                             rm -rf Kubernetes
-                            git clone https://$GIT_USER:$GIT_PASS@github.com/MSAdithya45/kubernetes.git
+                            git clone https://$GIT_USER:$GIT_PASS@github.com/MSAdithya45/Kubernetes.git
                             cd Kubernetes/kubernetes
 
                             echo "Promoting existing canary image to stable..."
@@ -40,7 +40,7 @@ pipeline {
                             git add frontend-server.yaml node-server.yaml
                             git commit -m "Promote Canary to Stable - Build #${BUILD_NUMBER}" || echo "No stable changes to commit"
 
-                            git push https://$GIT_USER:$GIT_PASS@github.com/MSAdithya45/kubernetes.git main
+                            git push https://$GIT_USER:$GIT_PASS@github.com/MSAdithya45/Kubernetes.git main
 
                             cd ../..
                         '''
@@ -123,7 +123,7 @@ pipeline {
                     sh '''
                         echo "Cloning Kubernetes repo for canary update..."
                         rm -rf Kubernetes
-                        git clone https://github.com/MSAdithya45/kubernetes.git
+                        git clone https://github.com/MSAdithya45/Kubernetes.git
                         cd kubernetes/kubernetes
 
                         echo "Updating canary YAML files with new images..."
@@ -149,7 +149,7 @@ pipeline {
                             git add kubernetes/frontend-canary.yaml kubernetes/node-canary.yaml kubernetes/frontend-server.yaml kubernetes/node-server.yaml
                             git commit -m "Update Canary & Promote Stable - Build #${BUILD_NUMBER}" || echo "No new canary changes to commit"
 
-                            git push https://$GIT_USER:$GIT_PASS@github.com/MSAdithya45/kubernetes.git main
+                            git push https://$GIT_USER:$GIT_PASS@github.com/MSAdithya45/Kubernetes.git main
 
                             cd ..
                         '''
