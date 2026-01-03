@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         SONAR_HOME = tool name: 'Sonar', type: 'hudson.plugins.sonar.SonarRunnerInstallation'
-        DOCKERHUB_USER = 'mukheshdn'
+        DOCKERHUB_USER = 'madithya'
         DOCKER_CREDENTIALS_ID = 'dockerhub-creds'
         GITHUB_CREDENTIALS_ID = 'github-token'
     }
